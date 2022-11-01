@@ -498,9 +498,15 @@ function update_view(appState) {
     }
 
   if (appState.current_view != "#intro_view" && appState.current_view != "#end_view" &&  appState.current_view != "#feedback_view_correct" &&  appState.current_view != "#feedback_view_incorrect" ){//sets variables in the trcker if on question view depending on current question and past answers
-      document.querySelector("#currScore").innerHTML=((amountCorrect/appState.current_question)*100).toFixed(2) + "%";
+      if(appState.current_question==0){
+         document.querySelector("#currScore").innerHTML= "0.00%";
+         document.querySelector("#pValue").innerHTML="Progress: 0%";
+      }
+      else{
+         document.querySelector("#currScore").innerHTML=((amountCorrect/appState.current_question)*100).toFixed(2) + "%";
+         document.querySelector("#pValue").innerHTML="Progress: " + (appState.current_question)*(100/quizSize) + "%";
+      }
       document.getElementById("pBar").style=`width: ${(appState.current_question)*(100/quizSize)}%`;
-      document.querySelector("#pValue").innerHTML="Progress: " + (appState.current_question)*(100/quizSize) + "%";
       var elapsedTimeText = document.getElementsByClassName("elapsed-time-text")[0];
       elapsedTimeIntervalRef = setInterval(() => {
         elapsedTimeText.innerText = timeAndDateHandling.getElapsedTime(startTime);}, 1000);
